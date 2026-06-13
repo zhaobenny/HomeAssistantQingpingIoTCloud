@@ -78,6 +78,7 @@ class QingpingSensor(CoordinatorEntity, SensorEntity):
         if ha_class is None:
             return None
         return SensorDeviceClass(ha_class)
+
     @property
     def device_info(self) -> DeviceInfo:
         """Return device information."""
@@ -89,7 +90,7 @@ class QingpingSensor(CoordinatorEntity, SensorEntity):
             identifiers={
                 (
                     DOMAIN,
-                    f"{self.coordinator.data.controller_name}-{self.device.mac}-{self.attribute}",
+                    f"{self.coordinator.data.controller_name}-{self.device.mac}",
                 )
             },
             connections={("mac", self.device_mac_formatted)},

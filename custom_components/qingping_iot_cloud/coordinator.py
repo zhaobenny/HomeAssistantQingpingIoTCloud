@@ -2,9 +2,11 @@
 
 import asyncio
 import logging
+import time
 from dataclasses import dataclass
 from datetime import timedelta
 
+import requests
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_CLIENT_ID,
@@ -15,6 +17,7 @@ from homeassistant.core import DOMAIN, HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from qingping_iot_cloud import QingpingCloud, QingpingDevice
+from qingping_iot_cloud.QingpingCloud import APIAuthError, APIConnectionError
 
 from .const import DEFAULT_SCAN_INTERVAL, HTTP_GET_TIMEOUT
 
@@ -76,6 +79,55 @@ class QingpingCoordinator(DataUpdateCoordinator):
             raise UpdateFailed(error_message) from err
 
         return QingpingAPIData(self.cloud.API_URL_PREFIX, devices)
+
+    async def async_update_device_settings(
+        self,
+        mac: str,
+        report_interval: int,
+        collect_interval: int,
+    ) -> None:
+        """Update data report settings for a Qingping device."""
+        await asyncio.wait_for(
+            self.hass.async_add_executor_job(
+                self._update_device_settings,
+                mac,
+                report_interval,
+                collect_interval,
+            ),
+            HTTP_GET_TIMEOUT,
+        )
+        await self.async_request_refresh()
+
+    def _update_device_settings(
+        self,
+        mac: str,
+        report_interval: int,
+        collect_interval: int,
+    ) -> None:
+        """Call Qingping settings API."""
+        self.cloud.connect()
+        url = f"{self.cloud.API_URL_PREFIX}/devices/settings"
+        payload = {
+            "mac": [mac],
+            "report_interval": report_interval,
+            "collect_interval": collect_interval,
+            "timestamp": int(time.time() * 1000),
+        }
+        response = requests.put(
+            url,
+            auth=self.cloud._auth,  # noqa: SLF001
+            json=payload,
+            timeout=HTTP_GET_TIMEOUT,
+        )
+        _LOGGER.debug("API PUT %s RESPONSE CODE: %s", url, response.status_code)
+        if response.ok:
+            return
+
+        _LOGGER.debug("API PUT %s RESPONSE BODY: %s", url, response.text)
+        msg = f"Error updating device settings: {response.status_code}"
+        if response.status_code in (401, 403):
+            raise APIAuthError(msg)
+        raise APIConnectionError(msg)
 
     def get_device_by_mac(
         self, device_mac: int

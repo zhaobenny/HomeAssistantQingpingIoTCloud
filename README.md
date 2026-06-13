@@ -1,20 +1,14 @@
+this is a fork
+
 # Qingping IoT Cloud integration for Home Assistant
 
 Home Assistant integration for Wi-Fi enabled Qingping devices connected to Qingping IoT Cloud (as opposed to [official integration](https://www.home-assistant.io/integrations/qingping/) which uses Bluetooth only). This integration uses [qingping-iot-cloud](https://github.com/danielskowronski/qingping-iot-cloud) library.
-
-***THIS IS WORK IN PROGRESS***
-
 ## How to use this
 
 ### Install
 
-<!-- [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=danielskowronski&repository=HomeAssistantQingpingIoTCloud) --> 
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=zhaobenny&repository=HomeAssistantQingpingIoTCloud&category=integration)
 
-To install this repo, you need to add it as [Custom repository](https://hacs.xyz/docs/faq/custom_repositories/) in [HACS](https://hacs.xyz). Use type **integration** and this URL:
-
-```
-https://github.com/danielskowronski/HomeAssistantQingpingIoTCloud
-```
 
 ### Connect to cloud
 
@@ -54,5 +48,7 @@ There are some differences:
 
 
 ## Acknowledgements
+
+This is a forked repository, see original.
 
 This integration is based on [Example Home Assistant Integration - Integration 101 Template](https://github.com/msp1974/HAIntegrationExamples) by [Mark Parker](https://github.com/msp1974), which was originally distrubuted under MIT license. See [LICENSE](./LICENSE) file for full statement.

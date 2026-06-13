@@ -31,7 +31,11 @@ from .coordinator import QingpingCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
-PLATFORMS: list[Platform] = [Platform.SENSOR]
+PLATFORMS: list[Platform] = [
+    Platform.BINARY_SENSOR,
+    Platform.NUMBER,
+    Platform.SENSOR,
+]
 
 
 @dataclass
@@ -138,11 +142,11 @@ async def handle_webhook(
         new_data = coordinator.get_device_by_mac(mac).data
 
         # TODO: can `data` be longer than 1 element?
-        l = len(incoming_data["payload"]["data"])
-        if l != 1:
+        data_len = len(incoming_data["payload"]["data"])
+        if data_len != 1:
             msg = (
                 f"WEBHOOK_PAYLOAD_DATA_LEN webhook {webhook_id} received payload with "
-                f"{l} elements in data, expected 1"
+                f"{data_len} elements in data, expected 1"
             )
             _LOGGER.warning(msg)
         for property_name, property_data in incoming_data["payload"]["data"][0].items():
