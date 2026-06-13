@@ -1,6 +1,4 @@
 {
   "name": "Qingping IoT Cloud",
-  "content_in_root": false,
-  "zip_release": true,
-  "filename": "qingping_iot_cloud.zip"
+  "content_in_root": false
 }

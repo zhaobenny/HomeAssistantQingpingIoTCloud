@@ -2,12 +2,12 @@
   "domain": "qingping_iot_cloud",
   "name": "Qingping IoT Cloud",
   "codeowners": [
-    "@danielskowronski"
+    "@zhaobenny"
   ],
   "config_flow": true,
   "dependencies": [],
-  "documentation": "https://github.com/danielskowronski/HomeAssistantQingpingIoTCloud",
-  "issue_tracker": "https://github.com/danielskowronski/HomeAssistantQingpingIoTCloud/issues",
+  "documentation": "https://github.com/zhaobenny/HomeAssistantQingpingIoTCloud",
+  "issue_tracker": "https://github.com/zhaobenny/HomeAssistantQingpingIoTCloud/issues",
   "homekit": {},
   "integration_type": "hub",
   "iot_class": "cloud_polling",
