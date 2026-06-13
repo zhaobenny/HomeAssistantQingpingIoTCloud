@@ -12,8 +12,7 @@
   "integration_type": "hub",
   "iot_class": "cloud_polling",
   "requirements": [
-    "qingping-iot-cloud==0.2.2",
-    "asyncio==3.4.3"
+    "qingping-iot-cloud @ https://github.com/zhaobenny/qingping-iot-cloud/releases/download/0.2.2.post1/qingping_iot_cloud-0.2.2.post1-py3-none-any.whl"
   ],
   "single_config_entry": false,
   "ssdp": [],

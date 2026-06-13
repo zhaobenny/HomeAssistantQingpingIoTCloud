@@ -2,5 +2,4 @@ colorlog==6.9.0
 homeassistant==2024.11.0
 pip>=21.3.1
 ruff==0.9.2
-qingping-iot-cloud==0.2.2
-asyncio==3.4.3
+qingping-iot-cloud @ https://github.com/zhaobenny/qingping-iot-cloud/releases/download/0.2.2.post1/qingping_iot_cloud-0.2.2.post1-py3-none-any.whl
