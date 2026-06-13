@@ -24,6 +24,7 @@ from qingping_iot_cloud.QingpingCloud import APIAuthError, APIConnectionError
 from .const import DOMAIN, MIN_SCAN_INTERVAL
 
 _LOGGER = logging.getLogger(__name__)
+DEFAULT_TITLE = "Qingping IoT Cloud"
 
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
@@ -46,7 +47,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
         raise APIAuthError from err
     except APIConnectionError as err:
         raise APIConnectionError from err
-    return {"title": f"Qingping IoT Cloud - {data[CONF_CLIENT_ID]}"}
+    return {"title": DEFAULT_TITLE}
 
 
 class QingpingIoTCloudConfigFlow(ConfigFlow, domain=DOMAIN):
@@ -79,7 +80,7 @@ class QingpingIoTCloudConfigFlow(ConfigFlow, domain=DOMAIN):
                 errors["base"] = "unknown"
 
             if "base" not in errors:
-                await self.async_set_unique_id(info.get("title"))
+                await self.async_set_unique_id(user_input[CONF_CLIENT_ID])
                 self._abort_if_unique_id_configured()
                 return self.async_create_entry(title=info["title"], data=user_input)
 
