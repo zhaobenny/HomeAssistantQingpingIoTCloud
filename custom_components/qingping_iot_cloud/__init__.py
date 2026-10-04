@@ -10,10 +10,9 @@ from dataclasses import dataclass
 from aiohttp.web import Request
 from homeassistant.components.cloud import async_get_or_create_cloudhook
 from homeassistant.components.persistent_notification import (
-    create as persistent_notification_create,
+    async_dismiss as persistent_notification_dismiss,
 )
 from homeassistant.components.webhook import (
-    async_generate_url,
     async_register,
     async_unregister,
 )
@@ -79,20 +78,11 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> b
     else:
         _LOGGER.info("webhook %s already registered", config_entry.entry_id)
 
-    webhook_url = async_generate_url(hass, config_entry.entry_id)
     with contextlib.suppress(Exception):
-        webhook_url = await async_get_or_create_cloudhook(hass, config_entry.entry_id)
+        await async_get_or_create_cloudhook(hass, config_entry.entry_id)
 
-    persistent_notification_create(
-        hass,
-        (
-            f"Your webhook public URL is: {webhook_url}\n\n"
-            "Go to https://developer.qingping.co/personal/dataPushSetting"
-            "and provide the above URL."
-        ), # TODO: handle local only URL
-        title="Qingping IoT Cloud - ability to use incoming Webhooks",
-        notification_id="qingping_notification"
-    )
+    # Clear the webhook setup notification left by earlier versions.
+    persistent_notification_dismiss(hass, "qingping_notification")
 
 
     return True
